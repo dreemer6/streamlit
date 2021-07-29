@@ -43,7 +43,9 @@ def add_parameter_ui(clf_name):
         params["K"] = K
     elif clf_name == "SVM":
         C = st.sidebar.slider("C", 0.01, 10.0)
+        kernel = st.sidebar.selectbox("Select Kernel", ("linear", "poly", "rbf", "sigmoid"))
         params["C"] = C
+        params["kernel"] = kernel 
     else:
         max_depth = st.sidebar.slider("max_depth", 2, 15)
         n_estimators = st.sidebar.slider("n_estimators", 1, 100)
@@ -57,7 +59,7 @@ def get_classifier(clf_name, params):
     if clf_name == "KNN":
         clf = KNeighborsClassifier(n_neighbors=params["K"])
     elif clf_name == "SVM":
-        clf = SVC(C=params["C"])
+        clf = SVC(C=params["C"], kernel=params["kernel"])
     else:
         clf = RandomForestClassifier(n_estimators=params["n_estimators"], 
                                     max_depth=params["max_depth"], random_state=42)
